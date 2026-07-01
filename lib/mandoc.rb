@@ -17,10 +17,18 @@
 require_relative "mandoc/version"
 require "mandoc/mandoc"
 
+# The main entrypoint should be Mandoc::Parser.new.
 module Mandoc
-  # This class doen't have +new+ method.  Use Mandoc::Parser#open
-  # instead.
-  class File
-    private_class_method :new
+  class Parser
+    ##
+    # :method: new
+  end
+
+  #--
+  # TODO: Converters for HTML, PDF, ASCII, UTF8, LOCALE, PS
+  # (PostScript) are tricky, since it expects outdata (void*) of
+  # struct outstate pointer.
+  #++
+  class MdocMeta
   end
 end

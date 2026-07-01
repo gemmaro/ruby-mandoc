@@ -63,6 +63,10 @@ rb_parser_alloc (VALUE klass)
 }
 
 static const rb_data_type_t rb_meta_type;
+/**
+ * :call-seq:
+ *   parse_file (filename) -> Meta
+ */
 static VALUE
 rb_parser_m_parse_file (VALUE self, VALUE fname)
 {
@@ -123,6 +127,10 @@ rb_meta_alloc (VALUE klass)
   return rb_data_typed_object_wrap (rb_cMeta, NULL, &rb_meta_type);
 }
 
+/**
+ * :call-seq:
+ *   deroff -> String
+ */
 static VALUE
 rb_meta_m_deroff (VALUE self)
 {
@@ -135,6 +143,10 @@ rb_meta_m_deroff (VALUE self)
   return str;
 }
 
+/**
+ * :call-seq:
+ *   section -> String
+ */
 static VALUE
 rb_meta_m_section (VALUE self)
 {
@@ -142,6 +154,10 @@ rb_meta_m_section (VALUE self)
   return rb_str_new_cstr (meta->msec);
 }
 
+/**
+ * :call-seq:
+ *   volume -> String
+ */
 static VALUE
 rb_meta_m_volume (VALUE self)
 {
@@ -149,6 +165,10 @@ rb_meta_m_volume (VALUE self)
   return rb_str_new_cstr (meta->vol);
 }
 
+/**
+ * :call-seq:
+ *   os -> String
+ */
 static VALUE
 rb_meta_m_os (VALUE self)
 {
@@ -156,6 +176,10 @@ rb_meta_m_os (VALUE self)
   return rb_str_new_cstr (meta->os);
 }
 
+/**
+ * :call-seq:
+ *   arch -> String or nil
+ */
 static VALUE
 rb_meta_m_arch (VALUE self)
 {
@@ -163,6 +187,10 @@ rb_meta_m_arch (VALUE self)
   return meta->arch ? rb_str_new_cstr (meta->arch) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   title -> String
+ */
 static VALUE
 rb_meta_m_title (VALUE self)
 {
@@ -170,6 +198,10 @@ rb_meta_m_title (VALUE self)
   return rb_str_new_cstr (meta->title);
 }
 
+/**
+ * :call-seq:
+ *   name -> String
+ */
 static VALUE
 rb_meta_m_name (VALUE self)
 {
@@ -177,6 +209,10 @@ rb_meta_m_name (VALUE self)
   return rb_str_new_cstr (meta->name);
 }
 
+/**
+ * :call-seq:
+ *   date -> String
+ */
 static VALUE
 rb_meta_m_date (VALUE self)
 {
@@ -184,6 +220,10 @@ rb_meta_m_date (VALUE self)
   return rb_str_new_cstr (meta->date);
 }
 
+/**
+ * :call-seq:
+ *   so_target -> String or nil
+ */
 static VALUE
 rb_meta_m_so_target (VALUE self)
 {
@@ -191,6 +231,10 @@ rb_meta_m_so_target (VALUE self)
   return meta->sodest ? rb_str_new_cstr (meta->sodest) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   has_body? -> false or true
+ */
 static VALUE
 rb_meta_m_has_body (VALUE self)
 {
@@ -248,6 +292,10 @@ rb_restore_stdout (int original_stdout, int read_end)
   return md;
 }
 
+/**
+ * :call-seq:
+ *   tree -> String
+ */
 static VALUE
 rb_mdocmeta_m_tree (VALUE self)
 {
@@ -261,6 +309,10 @@ rb_mdocmeta_m_tree (VALUE self)
   return rb_restore_stdout (original_stdout, read_end);
 }
 
+/**
+ * :call-seq:
+ *   tree -> String
+ */
 static VALUE
 rb_manmeta_m_tree (VALUE self)
 {
@@ -274,6 +326,10 @@ rb_manmeta_m_tree (VALUE self)
   return rb_restore_stdout (original_stdout, read_end);
 }
 
+/**
+ * :call-seq:
+ *   man -> String
+ */
 static VALUE
 rb_mdocmeta_m_man (VALUE self)
 {
@@ -288,6 +344,9 @@ rb_mdocmeta_m_man (VALUE self)
 }
 
 /**
+ * :call-seq:
+ *   man -> String
+ *
  * The result depends on <tt>struct mparse</tt>, which means this
  * method must be called BEFORE the next +parse_file+ method calling.
  */
@@ -304,6 +363,10 @@ rb_manmeta_m_man (VALUE self)
   return rb_restore_stdout (original_stdout, read_end);
 }
 
+/**
+ * :call-seq:
+ *   markdown -> String
+ */
 static VALUE
 rb_mdocmeta_m_markdown (VALUE self)
 {
@@ -358,6 +421,10 @@ rb_wrap_node (struct roff_node *node)
   return rb_data_typed_object_wrap (klass, node, &rb_node_type);
 }
 
+/**
+ * :call-seq:
+ *   first_node -> Node
+ */
 static VALUE
 rb_meta_m_first_node (VALUE self)
 {
@@ -384,6 +451,10 @@ rb_node_alloc (VALUE klass)
   return rb_data_typed_object_wrap (klass, NULL, &rb_node_type);
 }
 
+/**
+ * :call-seq:
+ *   parent -> Node or nil
+ */
 static VALUE
 rb_node_m_parent (VALUE self)
 {
@@ -391,6 +462,10 @@ rb_node_m_parent (VALUE self)
   return node->parent ? rb_wrap_node (node->parent) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   first_child -> Node or nil
+ */
 static VALUE
 rb_node_m_first_child (VALUE self)
 {
@@ -398,6 +473,10 @@ rb_node_m_first_child (VALUE self)
   return node->child ? rb_wrap_node (node->child) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   last_child -> Node or nil
+ */
 static VALUE
 rb_node_m_last_child (VALUE self)
 {
@@ -405,6 +484,10 @@ rb_node_m_last_child (VALUE self)
   return node->last ? rb_wrap_node (node->last) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   next_sibling -> Node or nil
+ */
 static VALUE
 rb_node_m_next_sibling (VALUE self)
 {
@@ -412,6 +495,10 @@ rb_node_m_next_sibling (VALUE self)
   return node->next ? rb_wrap_node (node->next) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   prev_sibling -> Node or nil
+ */
 static VALUE
 rb_node_m_prev_sibling (VALUE self)
 {
@@ -419,6 +506,10 @@ rb_node_m_prev_sibling (VALUE self)
   return node->prev ? rb_wrap_node (node->prev) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   head -> Node or nil
+ */
 static VALUE
 rb_node_m_head (VALUE self)
 {
@@ -426,6 +517,10 @@ rb_node_m_head (VALUE self)
   return node->head ? rb_wrap_node (node->head) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   body -> Node or nil
+ */
 static VALUE
 rb_node_m_body (VALUE self)
 {
@@ -433,6 +528,10 @@ rb_node_m_body (VALUE self)
   return node->body ? rb_wrap_node (node->body) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   tail -> Node or nil
+ */
 static VALUE
 rb_node_m_tail (VALUE self)
 {
@@ -440,6 +539,10 @@ rb_node_m_tail (VALUE self)
   return node->tail ? rb_wrap_node (node->tail) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   text -> String or nil
+ */
 static VALUE
 rb_node_m_text (VALUE self)
 {
@@ -447,6 +550,10 @@ rb_node_m_text (VALUE self)
   return node->string ? rb_str_new_cstr (node->string) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   tag -> String or nil
+ */
 static VALUE
 rb_node_m_tag (VALUE self)
 {
@@ -454,6 +561,10 @@ rb_node_m_tag (VALUE self)
   return node->string ? rb_str_new_cstr (node->tag) : RUBY_Qnil;
 }
 
+/**
+ * :call-seq:
+ *   line -> Integer
+ */
 static VALUE
 rb_node_m_line (VALUE self)
 {
@@ -461,6 +572,10 @@ rb_node_m_line (VALUE self)
   return rb_int2num_inline (node->line);
 }
 
+/**
+ * :call-seq:
+ *   column -> Integer
+ */
 static VALUE
 rb_node_m_column (VALUE self)
 {
@@ -468,6 +583,10 @@ rb_node_m_column (VALUE self)
   return rb_int2num_inline (node->pos);
 }
 
+/**
+ * :call-seq:
+ *   name -> String
+ */
 static VALUE
 rb_node_m_name (VALUE self)
 {
@@ -498,10 +617,6 @@ Init_mandoc (void)
   rb_define_method (rb_cMeta, "date", rb_meta_m_date, 0);
   rb_define_method (rb_cMeta, "so_target", rb_meta_m_so_target, 0);
   rb_define_method (rb_cMeta, "has_body?", rb_meta_m_has_body, 0);
-
-  /* TODO: Converters for HTML, PDF, ASCII, UTF8, LOCALE, PS
-     (PostScript) are tricky, since it expects outdata (void*) of
-     struct outstate pointer. */
 
   rb_cMdocMeta = rb_define_class_under (rb_mMandoc, "MdocMeta", rb_cMeta);
   rb_define_method (rb_cMdocMeta, "markdown", rb_mdocmeta_m_markdown, 0);
