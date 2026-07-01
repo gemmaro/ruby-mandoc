@@ -4,4 +4,4 @@ set -eu
 # LANG addresses RDoc bug[1].
 #
 # [1] https://github.com/ruby/rdoc/issues/1574
-LANG=en_US.UTF-8 rdoc --exclude='mandoc-1.14.6/'
+LANG=en_US.UTF-8 rdoc --exclude='mandoc-1.14.6/|Gemfile|Rakefile|bin/|compile_flags|tmp/' --main=README.md
