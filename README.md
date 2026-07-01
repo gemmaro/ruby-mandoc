@@ -73,6 +73,9 @@ On OpenBSD, and if you are using packaged `ruby`, native compilation
 can fail because `install` command has `-o root -g bin` flags.  You
 can overwrite the behavior; please refer to `bin/compile` script.
 
+On Guix, edit `CC=` line in `mandoc-1.14.6/configure` script.  For
+example, if using GCC, change to `CC=gcc`.
+
 References: [my past project which uses similar mkmf strategy][re]
 
 [re]: https://github.com/gemmaro/ruby-eldc
