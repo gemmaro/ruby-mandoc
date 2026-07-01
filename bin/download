@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+curl -O https://mandoc.bsd.lv/snapshots/mandoc.tar.gz

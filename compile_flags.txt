@@ -1,0 +1,5 @@
+-I/usr/local/include/ruby-4.0
+-I/usr/local/include/ruby-4.0/x86_64-openbsd
+-I/usr/local/llvm21/lib/clang/21/include
+-Imandoc-1.14.6
+-Wall -Wextra

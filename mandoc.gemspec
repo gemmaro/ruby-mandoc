@@ -1,40 +1,42 @@
 # frozen_string_literal: true
 
+# Copyright (C) 2026  gemmaro
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
 require_relative "lib/mandoc/version"
 
 Gem::Specification.new do |spec|
   spec.name = "mandoc"
   spec.version = Mandoc::VERSION
-  spec.authors = ["TODO: Write your name"]
-  spec.email = ["TODO: Write your email address"]
+  spec.authors = ["gemmaro"]
+  spec.email = ["gemmaro.dev@gmail.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "mdoc/man parsing library"
+  spec.description = "This is a mandoc binding for Ruby.  This can parse manpages in mdoc/man formats, get metadata, traverse abstract syntax tree, and convert into some formats."
+  spec.homepage = "https://codeberg.org/gemmaro/ruby-mandoc"
+  spec.license = "GPL-3.0-or-later"
   spec.required_ruby_version = ">= 3.2.0"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://codeberg.org/gemmaro/ruby-mandoc.git"
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  gemspec = File.basename(__FILE__)
-  spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
-    ls.readlines("\x0", chomp: true).reject do |f|
-      (f == gemspec) ||
-        f.start_with?(*%w[bin/ Gemfile .gitignore test/ .github/])
-    end
-  end
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.files = Dir[
+    'mandoc-1.14.6/*.{c,h}',
+    'mandoc-1.14.6/LICENSE',
+    'ext/**/*.{c,h,rb}',
+    'lib/**/*.rb',
+    'COPYING',
+    '*.md',
+  ].reject { |file| file.match?(%r{\Amandoc-.+?/test-}) }
   spec.require_paths = ["lib"]
   spec.extensions = ["ext/mandoc/extconf.rb"]
-
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
-
-  # For more information and examples about making a new gem, check out our
-  # guide at: https://bundler.io/guides/creating_gem.html
 end

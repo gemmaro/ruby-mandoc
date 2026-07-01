@@ -11,3 +11,8 @@
 *.o
 *.a
 mkmf.log
+/mandoc.tar.gz
+/mandoc-1.14.6/
+/.direnv/
+/Gemfile.lock
+/ruby40.core

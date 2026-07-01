@@ -1,5 +1,7 @@
-## [Unreleased]
+# Change Log for mandoc gem
 
-## [0.1.0] - 2026-07-01
+## Unreleased
+
+## 0.0.1 - 2026-07-02
 
 - Initial release

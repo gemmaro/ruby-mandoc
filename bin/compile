@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+INSTALL="/usr/bin/install -c" MAKEFLAGS=e rake compile

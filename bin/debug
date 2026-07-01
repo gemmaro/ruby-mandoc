@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# OpenBSD generates ruby40.core when segfault.
+gdb /usr/local/bin/ruby40 ruby40.core

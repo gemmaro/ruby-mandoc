@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+
+gdb --args /usr/local/bin/ruby40 -Itest test/mandoc_test.rb

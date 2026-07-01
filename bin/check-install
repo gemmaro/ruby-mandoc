@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+ruby -e 'p RbConfig::CONFIG["INSTALL"]'
