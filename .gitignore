@@ -16,3 +16,4 @@ mkmf.log
 /.direnv/
 /Gemfile.lock
 /ruby40.core
+/mandoc-1.14.6.tar.gz

@@ -25,5 +25,10 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+      - name: Download mandoc
+        run: |
+          wget https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz
+          tar xf mandoc-1.14.6.tar.gz
+          (cd mandoc-1.14.6/ && ./configure)
       - name: Run the default task
         run: bundle exec rake
