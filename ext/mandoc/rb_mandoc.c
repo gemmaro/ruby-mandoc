@@ -508,10 +508,10 @@ rb_node_m_prev_sibling (VALUE self)
 
 /**
  * :call-seq:
- *   head -> Node or nil
+ *   head -> HeadNode or nil
  */
 static VALUE
-rb_node_m_head (VALUE self)
+rb_blocknode_m_head (VALUE self)
 {
   struct roff_node *node = RTYPEDDATA_DATA (self);
   return node->head ? rb_wrap_node (node->head) : RUBY_Qnil;
@@ -519,7 +519,7 @@ rb_node_m_head (VALUE self)
 
 /**
  * :call-seq:
- *   body -> Node or nil
+ *   body -> BodyNode or nil
  */
 static VALUE
 rb_node_m_body (VALUE self)
@@ -530,10 +530,10 @@ rb_node_m_body (VALUE self)
 
 /**
  * :call-seq:
- *   tail -> Node or nil
+ *   tail -> TailNode or nil
  */
 static VALUE
-rb_node_m_tail (VALUE self)
+rb_blocknode_m_tail (VALUE self)
 {
   struct roff_node *node = RTYPEDDATA_DATA (self);
   return node->tail ? rb_wrap_node (node->tail) : RUBY_Qnil;
@@ -627,6 +627,10 @@ Init_mandoc (void)
   rb_define_method (rb_cManMeta, "tree", rb_manmeta_m_tree, 0);
   rb_define_method (rb_cManMeta, "man", rb_manmeta_m_man, 0);
 
+  /* ELEMENT | TEXT | BLOCK
+   * ^ElemNode ^TextNode
+   *                  ^BlockNode
+   */
   rb_cNode = rb_define_class_under (rb_mMandoc, "Node", rb_cObject);
   rb_define_alloc_func (rb_cNode, rb_node_alloc);
 
@@ -635,11 +639,7 @@ Init_mandoc (void)
   rb_define_method (rb_cNode, "last_child", rb_node_m_last_child, 0);
   rb_define_method (rb_cNode, "next_sibling", rb_node_m_next_sibling, 0);
   rb_define_method (rb_cNode, "prev_sibling", rb_node_m_prev_sibling, 0);
-  rb_define_method (rb_cNode, "head", rb_node_m_head, 0);
-  rb_define_method (rb_cNode, "body", rb_node_m_body, 0);
-  rb_define_method (rb_cNode, "tail", rb_node_m_tail, 0);
 
-  rb_define_method (rb_cNode, "text", rb_node_m_text, 0);
   rb_define_method (rb_cNode, "tag", rb_node_m_tag, 0);
 
   rb_define_method (rb_cNode, "line", rb_node_m_line, 0);
@@ -647,13 +647,49 @@ Init_mandoc (void)
 
   rb_define_method (rb_cNode, "name", rb_node_m_name, 0);
 
+  /* mnode+
+   * ^Node
+   */
   rb_cRootNode = rb_define_class_under (rb_mMandoc, "RootNode", rb_cNode);
+
+  /*   HEAD BODY
+   *   ^HeadNode
+   *        ^BodyHead
+   * | HEAD [TEXT] (BODY [TEXT])+ [TAIL [TEXT]]
+   *   ^HeadNode    ^BodyNode      ^TailNode
+   *         ^TextNode    ^TextNode      ^TextNode
+   */
   rb_cBlockNode = rb_define_class_under (rb_mMandoc, "BlockNode", rb_cNode);
+  rb_define_method (rb_cBlockNode, "head", rb_blocknode_m_head, 0);
+  rb_define_method (rb_cBlockNode, "body", rb_node_m_body, 0);
+  rb_define_method (rb_cBlockNode, "tail", rb_blocknode_m_tail, 0);
+
+  /* mnode*
+   * ^Node
+   */
   rb_cHeadNode = rb_define_class_under (rb_mMandoc, "HeadNode", rb_cNode);
+
+  /* mnode* | mnode* [ENDBODY mnode*]
+   * ^Node    ^Node   ^BodyNode
+   *                          ^Node
+   */
   rb_cBodyNode = rb_define_class_under (rb_mMandoc, "BodyNode", rb_cNode);
+  rb_define_method (rb_cBodyNode, "end_body", rb_node_m_body, 0);
+
+  /* mnode*
+   * ^Node
+   */
   rb_cTailNode = rb_define_class_under (rb_mMandoc, "TailNode", rb_cNode);
+
+  /* ELEMENT | TEXT*
+   * ^ElemNode ^TextNode
+   */
   rb_cElemNode = rb_define_class_under (rb_mMandoc, "ElemNode", rb_cNode);
+
+  /* [[:ascii::]]* */
   rb_cTextNode = rb_define_class_under (rb_mMandoc, "TextNode", rb_cNode);
+  rb_define_method (rb_cTextNode, "text", rb_node_m_text, 0);
+
   rb_cCommentNode
       = rb_define_class_under (rb_mMandoc, "CommentNode", rb_cNode);
   rb_cTBLNode = rb_define_class_under (rb_mMandoc, "TBLNode", rb_cNode);
